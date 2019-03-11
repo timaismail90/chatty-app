@@ -10,9 +10,10 @@ class App extends Component {
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
+        <Message/>
         <MessageList/>
         <Chatbar/>
-        <Message/>
+
       </div>
 
     );

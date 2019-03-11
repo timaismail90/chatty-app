@@ -4,8 +4,8 @@ class chatbar extends React.Component {
   render () {
     return (
     <form className="chatbar-username">
-      <input footer="chatbar-username" placeholder="Your Name (Optional)" />
-      <input footer="chatbar-message" placeholder="Type a message and hit ENTER" />
+      <input className="chatbar-username" placeholder="Your Name (Optional)" />
+      <input className="chatbar-message" placeholder="Type a message and hit ENTER" />
     </form>
     )
   }
