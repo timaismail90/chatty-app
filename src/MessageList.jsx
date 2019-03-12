@@ -3,16 +3,13 @@ import Message from './Message.jsx';
 
 export default class MessageList extends Component {
  render(){
-    return (
-      <div>
-      <footer className="message">
-        <span className="message-username">{this.props.username}</span>
-        <span className="message-content">{this.props.content}</span>
-      </footer>
-      </div>
-    )
-  }
+  return (
+    <div>{this.props.messages.map((message, index) => {
+    return <Message username={message.username} content={message.content} key={index}/>
+    })}
+    </div>
+  );
 }
 
-
+}
 

@@ -35,25 +35,31 @@ class App extends Component {
     }, 3000);
   }
 
-  render() {
-    let messages = this.state.messages.map((message, index) => {
-            // console.log(index)
-            return (
-              <MessageList username={message.username} content={message.content} key={index}/>
 
-              )
-          })
+    handleChange=(event) => {
+      console.log("validate", event.target.previousSibling )
+   //   onKeyPress= (e) => {
+        if (event.key === 'Enter') {
+          let messages = this.state.messages;
+          let message = { username : event.target.previousSibling.value , content : event.target.value };
+          messages.push( message )
+          this.setState( messages );
+          event.target.value = ""
+        }
+     // }
+
+    }
+
+  render() {
 
     return (
      <div className= "App">
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
-        <Message/>
-        {messages}
 
-        {/*<MessageList messages={this.state.messages}/>*/}
-        <Chatbar username={this.state.currentUser.name}/>
+        <MessageList messages={this.state.messages}/>
+        <Chatbar username={this.state.currentUser.name} handleChange={this.handleChange}/>
       </div>
 
     );
