@@ -5,6 +5,7 @@ class MessageList extends React.Component {
   constructor(props){
     super(props)
     console.log('PROPS: ', this.props);
+
   }
 
   render () {
