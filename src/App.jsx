@@ -21,6 +21,7 @@ class App extends Component {
     }
   }
 
+
   componentDidMount() {
     console.log("componentDidMount <App />");
     setTimeout(() => {
@@ -35,15 +36,24 @@ class App extends Component {
   }
 
   render() {
+    let messages = this.state.messages.map((message, index) => {
+            // console.log(index)
+            return (
+              <MessageList username={message.username} content={message.content} key={index}/>
+
+              )
+          })
+
     return (
-      <div className= "App">
+     <div className= "App">
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <Message/>
-        <MessageList messages={this.state.messages}/>
-        <Chatbar username={this.state.currentUser.name}/>
+        {messages}
 
+        {/*<MessageList messages={this.state.messages}/>*/}
+        <Chatbar username={this.state.currentUser.name}/>
       </div>
 
     );
