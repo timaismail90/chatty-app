@@ -1,12 +1,6 @@
 import React from 'react'
 
 class chatbar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentUser:this.props.currentUser
-    }
-  }
   render () {
     return (
       <form>
