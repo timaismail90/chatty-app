@@ -42,10 +42,18 @@ ws = new WebSocket(URL)
       })
     }
 
+        // Listen for messages
+    this.ws.addEventListener('message', (event) => {
+      let message = JSON.parse(event.data)
+      // this.setState({ messages: message.data })
+      this.setState({messages: [...this.state.messages,message]})
+      console.log("message received")
 
-  }
+        })
+      }
 
-    handleChange=(event) => {
+
+    handleChange =(event) => {
       console.log("validate", event.target.previousSibling )
    //   onKeyPress= (e) => {
         if (event.key === 'Enter') {
@@ -57,13 +65,10 @@ ws = new WebSocket(URL)
           this.setState( messages );
           event.target.value = ""
         }
-
     }
-
-  render() {
-
-    return (
-     <div className= "App">
+    render() {
+      return (
+        <div className= "App">
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
@@ -73,7 +78,7 @@ ws = new WebSocket(URL)
       </div>
 
     );
-  }
+   }
 }
 
 
