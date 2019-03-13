@@ -3,6 +3,8 @@ import MessageList from './MessageList.jsx';
 import Chatbar from './Chatbar.jsx';
 import Message from './Message.jsx';
 
+const URL = 'ws://localhost:3001'
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -21,8 +23,13 @@ class App extends Component {
     }
   }
 
+ws = new WebSocket(URL)
 
   componentDidMount() {
+    this.ws.onopen = () => {
+      // on connecting, do nothing but log it to the console
+      console.log('connected')
+    }
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
