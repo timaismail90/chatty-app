@@ -47,7 +47,7 @@ ws = new WebSocket(URL)
       let message = JSON.parse(event.data)
       // this.setState({ messages: message.data })
       this.setState({messages: [...this.state.messages,message]})
-      console.log("message received")
+      console.log(this.state.messages)
 
         })
       }
@@ -57,12 +57,9 @@ ws = new WebSocket(URL)
       console.log("validate", event.target.previousSibling )
    //   onKeyPress= (e) => {
         if (event.key === 'Enter') {
-          let messages = this.state.messages;
           let message = { username : event.target.previousSibling.value , content : event.target.value };
           console.log(message)
           this.ws.send(JSON.stringify(message));
-          messages.push( message )
-          this.setState( messages );
           event.target.value = ""
         }
     }
