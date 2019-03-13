@@ -28,8 +28,9 @@ ws = new WebSocket(URL)
   componentDidMount() {
     this.ws.onopen = () => {
       // on connecting, do nothing but log it to the console
-      console.log('connected')
+      console.log('connected to server')
     }
+
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
@@ -40,8 +41,18 @@ ws = new WebSocket(URL)
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({messages: messages})
     }, 3000);
-  }
 
+
+    this.ws.onclose = () => {
+      console.log('disconnected')
+      // automatically try to reconnect on connection loss
+      this.setState({
+        ws: new WebSocket(URL),
+      })
+    }
+
+
+  }
 
     handleChange=(event) => {
       console.log("validate", event.target.previousSibling )
@@ -49,11 +60,12 @@ ws = new WebSocket(URL)
         if (event.key === 'Enter') {
           let messages = this.state.messages;
           let message = { username : event.target.previousSibling.value , content : event.target.value };
+          console.log(message)
+          this.ws.send(JSON.stringify(message));
           messages.push( message )
           this.setState( messages );
           event.target.value = ""
         }
-     // }
 
     }
 
