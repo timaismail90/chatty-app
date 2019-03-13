@@ -58,6 +58,8 @@ ws = new WebSocket(URL)
    //   onKeyPress= (e) => {
         if (event.key === 'Enter') {
           let message = { username : event.target.previousSibling.value , content : event.target.value };
+          // this.setState({currentUser:username})
+
           console.log(message)
           this.ws.send(JSON.stringify(message));
           event.target.value = ""
