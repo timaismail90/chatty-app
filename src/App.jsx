@@ -47,13 +47,17 @@ ws = new WebSocket(URL)
         const oldUser = this.state.currentUser.name
         const newUser = event.target.value
         this.setState({currentUser:{name:newUser}})
-        const newNotification = {
-           type:"postNotification",
+
+          if (newUser !== oldUser) {
+            const newNotification = {
+             type:"postNotification",
            content: `${oldUser} has chaged their name to ${newUser}`
         }
         console.log(newNotification, "newNotification testing")
         this.ws.send(JSON.stringify(newNotification));
 
+
+          }
       }
 
 
