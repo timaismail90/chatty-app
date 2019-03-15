@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import Chatbar from './Chatbar.jsx';
 import Message from './Message.jsx';
+import Navbar from './NavBar.jsx';
 
 const URL = 'ws://localhost:3001'
 
@@ -10,17 +11,18 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: []
+      messages: [],
+      counter: 0
     }
   }
 
 ws = new WebSocket(URL)
-
   componentDidMount() {
     this.ws.onopen = () => {
       // on connecting, do nothing but log it to the console
       console.log('connected to server')
     }
+
 
     console.log("componentDidMount <App />");
 
@@ -36,10 +38,23 @@ ws = new WebSocket(URL)
     this.ws.addEventListener('message', (event) => {
       let message = JSON.parse(event.data)
       console.log(event.data, "this message from server//")
-      this.setState({messages: [...this.state.messages,message]})
+      if (message.type === 'counter') {
+        this.setState({counter: message.data})
+      } else {
+         this.setState({messages: [...this.state.messages,message]})
       console.log(this.state.messages)
 
+
+      }
+
+    // if (!isNaN(event.data)) {
+    //     this.setState({counter:event.data})
+    //   }
+
         })
+      // if (!isNaN(event.data)) {
+      //   this.setState({counter:event.data})
+      // }
       }
 
       // change User handle
@@ -85,10 +100,7 @@ ws = new WebSocket(URL)
     render() {
       return (
         <div className= "App">
-        <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatty</a>
-        </nav>
-
+        <Navbar counter ={this.state.counter}/>
         <MessageList messages={this.state.messages}/>
         <Chatbar username={this.state.currentUser.name} changeUser= {this.changeUser} handleChange={this.handleChange}/>
       </div>

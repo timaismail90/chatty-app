@@ -19,38 +19,54 @@ const wss = new SocketServer({ server });
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected');
+   const counter = wss.clients.size
+    wss.clients.forEach(function each (client) {
+      client.send(
+        JSON.stringify({
+          type: 'counter',
+          data: counter
+        })
+      );
+    })
    ws.on('message', function incoming (message) {
     message = JSON.parse(message)
     console.log(message)
 
     if(message.type === "postMessage") {
-       message.id = uuid()
-       message.type = "incomingMessage"
-       wss.clients.forEach(function each(client) {
+      message.id = uuid()
+      message.type = "incomingMessage"
+      wss.clients.forEach(function each(client) {
         client.send(JSON.stringify(message));
 
-    });
+      });
     }
     else if (message.type === "postNotification") {
+      // if(newUser === "")
       message.id = uuid()
        message.type = "incomingNotification"
+
        wss.clients.forEach(function each(client) {
         client.send(
           JSON.stringify(message)
-          )
+        )
 
-
+      })
+    }
+  })
+ // Set up a callback for when a client closes the socket. This usually means they closed their browser.
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    const counter = wss.clients.size
+    wss.clients.forEach(function each (client) {
+      client.send(
+        JSON.stringify({
+          type: 'counter',
+          data: counter
+        })
+      );
     })
 
-
-
-    // wss.broadcast(JSON.stringify(parsedMessage))
-
-    // console.log(`user ${parsedMessage.username} said ${parsedMessage.content}`)
-  }
- // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
-});
+  });
 });
 
 
@@ -58,17 +74,3 @@ wss.on('connection', (ws) => {
 
 
 
-
-
-
-
-// wss.on('connection', function connection(ws) {
-//   ws.on('message', function incoming(message) {
-//     // Broadcast to everyone else.
-//     wss.clients.forEach(function each(client) {
-//       if (client !== ws && client.readyState === WebSocket.OPEN) {
-//         client.send(message);
-//       }
-//     });
-//   });
-// });
