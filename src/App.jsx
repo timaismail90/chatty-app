@@ -16,8 +16,10 @@ class App extends Component {
     }
   }
 
-  ws = new WebSocket(URL)
+
   componentDidMount() {
+    this.ws = new WebSocket(URL)
+
     this.ws.onopen = () => {
       console.log('connected to server')
       // Connection established
@@ -40,47 +42,46 @@ class App extends Component {
       }
     })
   }
-
-      // change User handle
-      changeUser = (event) =>{
-        const oldUser = this.state.currentUser.name
-        const newUser = event.target.value ? event.target.value :"Anonymous"
-        this.setState({currentUser:{name:newUser}})
-        if (newUser !== oldUser) {
-          const newNotification = {
-            type:"postNotification",
-            content: `${oldUser} has chaged their name to ${newUser}`
-          }
-        console.log(newNotification, "newNotification testing")
-        this.ws.send(JSON.stringify(newNotification));
-        }
+    // change User handle
+  changeUser = (event) =>{
+    const oldUser = this.state.currentUser.name
+    const newUser = event.target.value ? event.target.value :"Anonymous"
+    this.setState({currentUser:{name:newUser}})
+    if (newUser !== oldUser) {
+      const newNotification = {
+        type:"postNotification",
+        content: `${oldUser} has chaged their name to ${newUser}`
       }
+    console.log(newNotification, "newNotification testing")
+    this.ws.send(JSON.stringify(newNotification));
+    }
+  }
 
 
-    handleChange =(event) => {
-      console.log("validate", event.target.previousSibling )
-      if (event.key === 'Enter' && event.target.value) {
-        let messages = this.state.messages
-        const newUser =  event.target.value
-        const newUserName = {name:newUser}
-        const newMessage = {
-          type: "postMessage",
-          username: this.state.currentUser.name,
-          content: event.target.value
-          }
-          this.ws.send(JSON.stringify(newMessage));
-          event.target.value = ""
+  handleChange =(event) => {
+    console.log("validate", event.target.previousSibling )
+    if (event.key === 'Enter' && event.target.value) {
+      let messages = this.state.messages
+      const newUser =  event.target.value
+      const newUserName = {name:newUser}
+      const newMessage = {
+        type: "postMessage",
+        username: this.state.currentUser.name,
+        content: event.target.value
       }
+      this.ws.send(JSON.stringify(newMessage));
+      event.target.value = ""
     }
-    render() {
-      return (
-        <div className= "App">
-        <Navbar counter ={this.state.counter}/>
-        <MessageList messages={this.state.messages}/>
-        <Chatbar username={this.state.currentUser.name} changeUser= {this.changeUser} handleChange={this.handleChange}/>
-      </div>
-      );
-    }
+  }
+  render() {
+    return (
+      <div className= "App">
+      <Navbar counter ={this.state.counter}/>
+      <MessageList messages={this.state.messages}/>
+      <Chatbar username={this.state.currentUser.name} changeUser= {this.changeUser} handleChange={this.handleChange}/>
+    </div>
+    );
+  }
 }
 
 
