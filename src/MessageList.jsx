@@ -15,19 +15,16 @@ export default class MessageList extends Component {
 
     const message = this.props.messages.map((message) => {
       if (message.type === "incomingNotification"){
-            return <Notification key={message.id}  message= {message}/>
-          }
-          else if (message.type === "incomingMessage") {
-             return <Message key={message.id}  message= {message}/>
-          }
-        });
+        return <Notification key={message.id}  message= {message}/>
+      }
+      else if (message.type === "incomingMessage") {
+        return <Message key={message.id}  message= {message}/>
+      }
+    });
 
     return(
-          <main className="messages">
-            {message}
-          </main>
-        )
-
-}
+      <main className="messages">{message} </main>
+    )
+  }
 }
 
