@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
       counter: 0
     }
@@ -60,7 +60,7 @@ ws = new WebSocket(URL)
       // change User handle
       changeUser = (event) =>{
         const oldUser = this.state.currentUser.name
-        const newUser = event.target.value
+        const newUser = event.target.value ? event.target.value :"Anonymous"
         this.setState({currentUser:{name:newUser}})
 
           if (newUser !== oldUser) {
@@ -79,7 +79,7 @@ ws = new WebSocket(URL)
     handleChange =(event) => {
       console.log("validate", event.target.previousSibling )
    //   onKeyPress= (e) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && event.target.value) {
           let messages = this.state.messages
           const newUser =  event.target.value
           const newUserName = {name:newUser}
